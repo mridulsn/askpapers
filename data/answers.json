@@ -1,0 +1,86 @@
+[
+ {
+  "question": "How does FLARE decide when to retrieve?",
+  "answer": "FLARE retrieves only when the model shows low confidence in what it is about to write.\n\n- It first generates a temporary next sentence. If that sentence contains low-probability (low-confidence) tokens, FLARE uses it as a query to retrieve documents and then regenerates the sentence. [1][2]\n- The reasoning is that large LMs tend to be well-calibrated, so low probability often signals a lack of knowledge. [2]\n- This repeats iteratively until generation ends. [2]\n- Another source describes it as triggering retrieval when the model's token prediction probability falls below a predefined threshold. [5]",
+  "model": "claude-sonnet-5-5",
+  "via": "Claude Code CLI",
+  "date": "2026-11-19",
+  "sources": [
+   611,
+   617,
+   612,
+   1056,
+   759
+  ]
+ },
+ {
+  "question": "How can you evaluate a RAG system without human-written reference answers?",
+  "answer": "You can evaluate a RAG system without human-written reference answers by using reference-free metrics, as the Ragas framework does.\n\n- **Why this is needed:** When building a RAG system, you usually don't have human-annotated datasets or reference answers. Ragas therefore focuses on metrics that are fully self-contained and reference-free [1]. Ragas is a suite of metrics for evaluating RAG dimensions \"without having to rely on ground truth human annotations\" [4].\n- **What it measures:** Three quality aspects [2]:\n  - **Faithfulness:** whether the answer is grounded in the retrieved context. This helps avoid hallucinations and lets the context act as a justification for the answer [1][2].\n  - **Answer relevance:** whether the answer addresses the question [2].\n  - **Context relevance:** whether the retrieved context is sufficiently focused [2].\n- **How well it works:** On WikiEval, a dataset with human judgements of these three aspects, the Ragas predictions were closely aligned with human predictions, especially for faithfulness and answer relevance [2].\n  - Faithfulness predictions were generally highly accurate [2].\n  - Agreement was lower for answer relevance, largely because the differences between the two candidate answers were often subtle [2].\n  - Context relevance was the hardest dimension. ChatGPT often struggled to select the crucial sentences from the context, especially for longer contexts [2].\n- **Why not the usual alternatives:**\n  - Perplexity is not always predictive of downstream performance, and it needs LM probabilities that closed models such as ChatGPT and GPT-4 don't expose [5].\n  - Question-answering datasets usually have short extractive answers, which may not reflect how the system will be used [5].\n  - Reference-based metrics such as BERTScore, MoverScore and BARTScore compare the generated answer against reference answers, so they need those references [1].",
+  "model": "claude-sonnet-5-5",
+  "via": "Claude Code CLI",
+  "date": "2026-11-19",
+  "sources": [
+   1211,
+   1220,
+   805,
+   1204,
+   1207
+  ]
+ },
+ {
+  "question": "What happens when the retrieved documents are wrong or irrelevant?",
+  "answer": "When retrieved documents are wrong or irrelevant, CRAG responds based on how confident its evaluator is in them:\n\n- **Why it matters:** Irrelevant retrieved documents can make a language model's factual errors worse. [2] RAG is sensitive to retrieval quality, and irrelevant documents can mislead the generator and give worse results than no retrieval at all. [5]\n- **How CRAG decides:** A lightweight retrieval evaluator scores the retrieved documents for a query and returns a confidence degree. That confidence triggers different actions. [4]\n- **Incorrect:** This is triggered when all retrieved documents score below the lower threshold. [1][5] The documents are discarded. [3] Web search is used instead as a complementary knowledge source for correction. [3] The authors say it is unwise to stay stuck with inaccurate knowledge, because that is likely to produce fabricated facts. [1]\n- **Ambiguous:** When the evaluator can't confidently judge a retrieval as correct or incorrect, a middle action is triggered that combines both the refinement and web-search approaches. [3] Scores falling between the two thresholds lead to this action. [5] It combines internal (refined) and external (web search) knowledge. [5]\n- **Correct:** Even when a relevant document is found, it may contain noisy content. The documents are therefore refined by decomposing, filtering and recomposing them into more precise knowledge strips. [1][3]\n\nWeb search is used because retrieval from static, limited corpora can only return sub-optimal documents. [4]",
+  "model": "claude-sonnet-5-5",
+  "via": "Claude Code CLI",
+  "date": "2026-11-19",
+  "sources": [
+   882,
+   875,
+   878,
+   868,
+   1055
+  ]
+ },
+ {
+  "question": "How can an attacker poison the documents a RAG system searches?",
+  "answer": "- **Inject harmful content into an external source.** LLMs have safety filters against text-based jailbreaks but lack similar measures for RAG. A malicious user can put harmful content into external sources, which then manipulate the LLM into generating malicious content [2].\n- **Hide the content in a file format.** In Pandora, the malicious content is put into specially formatted files, with conversion to PDF as a way to evade detection mechanisms in the GPT infrastructure [5]. These files are then uploaded as the knowledge source for a customized GPT [5].\n- **Make sure the poisoned content gets retrieved.** The attacker instructs the customized GPT to generate content by running RAG on the tainted knowledge source. The prompt descriptions are broad, so any user question is read as a trigger for the jailbreak and starts retrieval [5].\n- **Other poisoning routes.** The Riddle Me This paper notes that other works assume an adversary who can inject malicious documents into the RAG knowledge database, or who can poison the RAG system directly [1]. That paper's own threat model does not assume poisoning or write access to the victim's data [1][3].",
+  "model": "claude-sonnet-5-5",
+  "via": "Claude Code CLI",
+  "date": "2026-11-19",
+  "sources": [
+   31,
+   1735,
+   34,
+   33,
+   1741
+  ]
+ },
+ {
+  "question": "Do knowledge graphs help retrieval for multi-hop questions?",
+  "answer": "Yes, according to the retrieved papers, though with some trade-offs.\n\n- **KG-RAG:** Adding a KG to an LLM with a question decomposition module improved accuracy on multi-hop questions on MetaQA. It came with a slight drop in single-hop performance compared to LLM-with-KG baselines [1][2].\n- **GFM-RAG:** A GNN-based retriever over a KG index can do multi-hop retrieval in a single step, and the paper says it beats earlier multi-step methods [4]. It reports state-of-the-art results on three multi-hop QA datasets [4]. Its examples show it following multi-hop paths, such as singer to football club to owner [5].\n- **Graph-based RAG in general:** Graph-based RAG captures relational knowledge and links evidence scattered across documents better than chunk-based RAG [3]. GraphRAG's entity-level KG is described as especially effective for multi-hop reasoning [3].\n- **Cost caveat:** Fine-grained entity graphs bring high token costs and can lose semantic coherence. Coarse document-level graphs lose nuanced relations [3].",
+  "model": "claude-sonnet-5-5",
+  "via": "Claude Code CLI",
+  "date": "2026-11-19",
+  "sources": [
+   1248,
+   1249,
+   1181,
+   204,
+   226
+  ]
+ },
+ {
+  "question": "How should long documents be split into chunks?",
+  "answer": "The sources describe several ways to split long documents, and none of them is clearly best.\n\n- **Why split at all:** Long documents can't be processed whole because of the embedding model and LLM context-window limits, so they have to be split into smaller chunks. [2]\n- **Fixed-size chunking:** The document is split into uniform-length segments, for example 100, 256 or 512 tokens. [1][5] Fixed boundaries ignore semantic structure, so an overlapping sliding window is used in practice. [5] One study used 150 words with an overlap of 15. [5]\n- **Chunk size trade-off:** Larger chunks capture more context but add noise, processing time and cost. Smaller chunks add less noise but may not convey enough context. [1] Chunking can also truncate sentences. [1]\n- **Recursive (format-based) chunking:** The document is split into larger segments, which are then subdivided using criteria such as a word limit or delimiters. Common delimiters are sentence boundaries, newlines, paragraphs and punctuation. [3][5]\n- **Semantic or cluster-based chunking:** Semantically similar sentences are combined into more coherent chunks. [3] It is more computationally demanding than traditional methods. [4]\n- **Other approaches:** Small2Big retrieves at sentence level and gives the surrounding sentences to the LLM as context. Hierarchical indexes and knowledge graphs are also mentioned. [1] Late Chunking embeds the full document with a long-context model first, then chunks it and applies mean pooling. [5]\n\nThe evidence on which to choose is mixed. Qu et al. found plain fixed-size chunking to be the most cost-effective. [4] In the academic-theses study, cluster-based chunking did not outperform simpler strategies under the tested configuration. [2] That study also notes that Qu et al.'s findings may not generalize to larger, structured documents. [4] One source says recursive and sliding-window methods still can't balance semantic completeness against context length. [1]",
+  "model": "claude-sonnet-5-5",
+  "via": "Claude Code CLI",
+  "date": "2026-11-19",
+  "sources": [
+   462,
+   362,
+   365,
+   363,
+   364
+  ]
+ }
+]
