@@ -61,7 +61,7 @@ export class BM25 {
 export function topK(scores, k, positiveOnly = false) {
   const idx = [];
   for (let i = 0; i < scores.length; i++) if (!positiveOnly || scores[i] > 0) idx.push(i);
-  idx.sort((a, b) => scores[b] - scores[a]);
+  idx.sort((a, b) => scores[b] - scores[a] || a - b);   // ties: lower index first (= Python stable argsort)
   return idx.slice(0, k);
 }
 
@@ -94,4 +94,40 @@ export function splitSentences(text) {
     !/\bet al\.$/.test(s) &&
     !/\b\d+(\.\d+)+\s+[A-Z]/.test(s) &&   // run-in section headings like "5.2.3 A Case Study"
     (s.match(/\d/g) || []).length < s.length * 0.08);
+}
+
+export const POOL = 50, RERANK_POOL = 30;
+
+// The whole retrieval pipeline, shared by the page (web/app.js) and the Node evaluation
+// (tests/web_eval.mjs), so the published numbers measure exactly what the page runs.
+//   embedQuery(q)          -> query vector (normalised, length dim)
+//   rerankScores(q, docs)  -> one score per doc text
+// Ties keep index order, matching Python's stable argsort.
+export async function hybridSearch({ q, mode, chunks, emb, dim, bm25, embedQuery, rerankScores, onStage, k = 5 }) {
+  const stages = {};
+  if (mode !== "dense") stages.bm25 = topK(bm25.scores(q), POOL, true);
+  if (mode !== "bm25") stages.dense = topK(denseScores(await embedQuery(q), emb, dim), POOL);
+  let ranked;
+  if (mode === "bm25") ranked = stages.bm25;
+  else if (mode === "dense") ranked = stages.dense;
+  else {
+    stages.hybrid = rrf([stages.bm25, stages.dense]);
+    ranked = stages.hybrid;
+    if (mode === "hybrid+rerank") {
+      onStage?.("rerank");
+      // Excerpt-only passages (licence) can't be judged fairly from 40 words, so they keep
+      // their merged slot and only the full-text passages are reordered around them.
+      const ids = stages.hybrid.slice(0, RERANK_POOL);
+      const movable = ids.filter((i) => !chunks[i].tf);
+      let order = [];
+      if (movable.length) {
+        const s = await rerankScores(q, movable.map((i) => `${chunks[i].paper.title}. ${chunks[i].text}`));
+        order = movable.map((id, j) => [id, s[j], j]).sort((a, b) => b[1] - a[1] || a[2] - b[2]).map(([id]) => id);
+      }
+      let n = 0;
+      stages.rerank = ids.map((id) => (chunks[id].tf ? id : order[n++]));
+      ranked = stages.rerank;
+    }
+  }
+  return { final: ranked.slice(0, k).map((i) => chunks[i]), stages };
 }

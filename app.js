@@ -1,11 +1,11 @@
 import { pipeline, AutoTokenizer, AutoModelForSequenceClassification, env }
   from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1";
-import { BM25, QUERY_PREFIX, denseScores, rrf, splitSentences, topK } from "./search.js";
+import { BM25, QUERY_PREFIX, hybridSearch, splitSentences } from "./search.js";
 
 env.allowLocalModels = false;
 const EMBED_ID = "Xenova/bge-small-en-v1.5";
 const RERANK_ID = "mixedbread-ai/mxbai-rerank-xsmall-v1";
-const DIM = 384, POOL = 50, RERANK_POOL = 30, K = 5;
+const DIM = 384;
 
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -67,45 +67,27 @@ async function embed(texts) {
 }
 
 async function search(q, mode) {
-  const stages = {};
   const t0 = performance.now();
-  if (mode !== "dense") stages.bm25 = topK(bm25.scores(q), POOL, true);
-  if (mode !== "bm25") {
-    const [qv] = await embed([QUERY_PREFIX + q]);
-    stages.dense = topK(denseScores(qv, emb, DIM), POOL);
-  }
-  let ranked;
-  if (mode === "bm25") ranked = stages.bm25;
-  else if (mode === "dense") ranked = stages.dense;
-  else {
-    stages.hybrid = rrf([stages.bm25, stages.dense]);
-    ranked = stages.hybrid;
-    if (mode === "hybrid+rerank") {
+  const res = await hybridSearch({
+    q, mode, chunks, emb, dim: DIM, bm25,
+    embedQuery: async (text) => (await embed([QUERY_PREFIX + text]))[0],
+    rerankScores: async (text, docs) => {
       const [tok, model] = await getReranker();
-      status("Reranking the top 30 passages ...");
-      // Excerpt-only passages (licence) can't be judged fairly from 40 words, so they keep
-      // their merged slot and only the full-text passages are reordered around them.
-      const ids = stages.hybrid.slice(0, RERANK_POOL);
-      const movable = ids.filter((i) => !chunks[i].tf);
-      const docs = movable.map((i) => `${chunks[i].paper.title}. ${chunks[i].text}`);
-      let order = [];
-      if (docs.length) {
-        const inputs = tok(new Array(docs.length).fill(q), { text_pair: docs, padding: true, truncation: true, max_length: 512 });
-        const { logits } = await model(inputs);
-        const s = logits.tolist().map((x) => x[0]);
-        order = movable.map((id, j) => [id, s[j]]).sort((a, b) => b[1] - a[1]).map(([id]) => id);
-      }
-      let k = 0;
-      stages.rerank = ids.map((id) => (chunks[id].tf ? id : order[k++]));
-      ranked = stages.rerank;
-    }
-  }
-  return { final: ranked.slice(0, K).map((i) => chunks[i]), stages, ms: performance.now() - t0 };
+      const inputs = tok(new Array(docs.length).fill(text), { text_pair: docs, padding: true, truncation: true, max_length: 512 });
+      const { logits } = await model(inputs);
+      return logits.tolist().map((x) => x[0]);
+    },
+    onStage: () => status("Reranking the top 30 passages ..."),
+  });
+  return { ...res, ms: performance.now() - t0 };
 }
 
 async function keySentences(q, final) {
   const cands = [];
-  final.forEach((c, n) => splitSentences(c.text).forEach((s) => cands.push({ s, n: n + 1 })));
+  const seen = new Set();   // passages overlap by 50 words, so the same sentence can appear twice
+  final.forEach((c, n) => splitSentences(c.text).forEach((s) => {
+    if (!seen.has(s)) { seen.add(s); cands.push({ s, n: n + 1 }); }
+  }));
   if (!cands.length) return [];
   const [qv] = await embed([QUERY_PREFIX + q]);
   const vs = await embed(cands.map((c) => c.s));
@@ -171,39 +153,54 @@ function renderStages(final, stages) {
   $("#stages").innerHTML = `<table><thead><tr><th>Passage</th>${cols.map((k) => `<th class="num">${names[k]}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table>`;
 }
 
+let runId = 0;
 async function run(q) {
   q = q.trim();
   if (!q) return;
+  const id = ++runId;                 // a newer search makes this one stale
+  const live = () => id === runId;
   $("#q").value = q;
   $("#results").hidden = false;
   $("#answer").innerHTML = "";
+  let res;
   try {
-    const rec = answers.find((a) => a.question.toLowerCase() === q.toLowerCase());
-    const res = await search(q, state.mode);
-    let final = res.final;
-    if (rec) {
-      // Show the exact sources the recorded answer was written from.
-      final = rec.sources.map((id) => chunks[id]);
-      $("#answer-label").textContent = `Recorded run, ${prettyModel(rec.model)}, ${rec.date}`;
-      $("#answer-note").textContent = "Written by Claude from the five passages on the right, using the Python version of this pipeline. Questions you type yourself get quoted key sentences instead, so this page needs no API key.";
-      $("#answer").innerHTML = renderAnswer(rec.answer);
-    } else {
-      status("Picking the key sentences ...");
-      const ks = await keySentences(q, final);
-      $("#answer-label").textContent = "Key sentences, quoted from the papers";
-      $("#answer-note").textContent = "Nothing here is generated. Each sentence is copied from a source passage and picked by how close its meaning is to your question.";
-      $("#answer").innerHTML = ks.length
-        ? `<ul class="quotes">${ks.map((k) => `<li>&ldquo;${esc(k.s)}&rdquo; <a class="cite" href="#src-${k.n}">[${k.n}]</a></li>`).join("")}</ul>`
-        : "<p>No clear sentence matched. Read the passages on the right.</p>";
-    }
-    renderSources(final);
-    renderStages(final, res.stages);
-    const first = !state.searched; state.searched = true;
-    status(`Searched ${chunks.length.toLocaleString()} passages in ${(res.ms / 1000).toFixed(1)} s` +
-      (first && res.ms > 5000 ? " (the first search includes downloading the models)" : ""), false);
+    res = await search(q, state.mode);
   } catch (err) {
     console.error(err);
-    status(`Something went wrong: ${err.message}. Try again or switch to Keyword mode.`, false);
+    if (live()) status(`Search failed: ${err.message}.` + (state.mode === "bm25" ? " Try again." : " Keyword mode works without any model download."), false);
+    return;
+  }
+  if (!live()) return;
+  const rec = answers.find((a) => a.question.toLowerCase() === q.toLowerCase());
+  // Show the exact sources a recorded answer was written from.
+  const final = rec ? rec.sources.map((i) => chunks[i]) : res.final;
+  renderSources(final);
+  renderStages(final, res.stages);
+  const first = !state.searched; state.searched = true;
+  const done = `Searched ${chunks.length.toLocaleString()} passages in ${(res.ms / 1000).toFixed(1)} s` +
+    (first && res.ms > 5000 ? " (the first search includes downloading the models)" : "");
+  if (rec) {
+    $("#answer-label").textContent = `Recorded run, ${prettyModel(rec.model)}, ${rec.date}`;
+    $("#answer-note").textContent = "Written by Claude from the five passages on the right, using the Python version of this pipeline. Questions you type yourself get quoted key sentences instead, so this page needs no API key.";
+    $("#answer").innerHTML = renderAnswer(rec.answer);
+    status(done, false);
+    return;
+  }
+  $("#answer-label").textContent = "Key sentences, quoted from the papers";
+  $("#answer-note").textContent = "Nothing here is generated. Each sentence is copied from a source passage and picked by how close its meaning is to your question.";
+  status("Picking the key sentences ...");
+  try {
+    const ks = await keySentences(q, final);
+    if (!live()) return;
+    $("#answer").innerHTML = ks.length
+      ? `<ul class="quotes">${ks.map((k) => `<li>&ldquo;${esc(k.s)}&rdquo; <a class="cite" href="#src-${k.n}">[${k.n}]</a></li>`).join("")}</ul>`
+      : "<p>No clear sentence matched. Read the passages on the right.</p>";
+    status(done, false);
+  } catch (err) {
+    console.error(err);
+    if (!live()) return;
+    $("#answer").innerHTML = "<p>The sentence picker needs the search model, which did not download. The sources on the right are still the search results.</p>";
+    status(done, false);
   }
 }
 
