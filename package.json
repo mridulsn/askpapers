@@ -1,0 +1,8 @@
+{
+  "name": "askpapers-web-eval",
+  "private": true,
+  "type": "module",
+  "description": "Runs the browser pipeline (web/search.js + transformers.js models) under Node to measure what the page ships.",
+  "scripts": { "web-eval": "node tests/web_eval.mjs" },
+  "devDependencies": { "@huggingface/transformers": "3.8.1" }
+}

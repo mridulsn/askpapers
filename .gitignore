@@ -7,3 +7,4 @@ data/papers/
 data/chunks.jsonl
 data/embeddings.npy
 data/fetch.log
+node_modules/

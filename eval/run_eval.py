@@ -18,15 +18,27 @@ from rag.retrieve import MODES, Retriever
 HERE = Path(__file__).resolve().parent
 
 
+SETS = {"keyword": "questions.jsonl", "reworded": "questions_reworded.jsonl"}
+
+
 def main() -> None:
-    sets = {"keyword": "questions.jsonl", "reworded": "questions_reworded.jsonl"}
+    """Usage: uv run python -m eval.run_eval [--name NAME]
+    Writes eval/results-NAME.json and .md (NAME defaults to the reranker model's short name).
+    Env: RERANK_MODEL picks the reranker; WEB_SIM=1 applies the web page's licence limits."""
+    import argparse
     import os
-    r = Retriever(web=os.environ.get("WEB_SIM") == "1")
+    from rag.models import RERANK_MODEL
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--name", default=RERANK_MODEL.split("/")[-1])
+    name = ap.parse_args().name
+    web = os.environ.get("WEB_SIM") == "1"
+    r = Retriever(web=web)
     r.search("warm up", "hybrid+rerank")
-    report = {name: run_set(r, name, f) for name, f in sets.items()}
-    (HERE / "results.json").write_text(json.dumps(report, indent=1))
-    write_md(report)
-    print("wrote eval/results.md")
+    report = {"config": {"reranker": RERANK_MODEL, "web_sim": web},
+              "sets": {s: run_set(r, s, f) for s, f in SETS.items()}}
+    (HERE / f"results-{name}.json").write_text(json.dumps(report, indent=1))
+    write_md(report, name)
+    print(f"wrote eval/results-{name}.json/.md")
 
 
 def run_set(r: Retriever, name: str, fname: str) -> dict:
@@ -51,10 +63,12 @@ def run_set(r: Retriever, name: str, fname: str) -> dict:
     return out
 
 
-def write_md(report: dict) -> None:
-    lines = ["# Retrieval results", "",
+def write_md(report: dict, run_name: str) -> None:
+    c = report["config"]
+    lines = [f"# Retrieval results: {run_name}", "",
+             f"Reranker: `{c['reranker']}`. Web licence limits applied: {c['web_sim']}.", "",
              "Rank shown = position of the first passage from the right paper (- = not in top 10).", ""]
-    for name, out in report.items():
+    for name, out in report["sets"].items():
         lines += [f"## {name.capitalize()} questions ({out['n_questions']})", "",
                   "| Pipeline | Hit@5 | MRR@10 | ms / query |", "|---|---|---|---|"]
         for mode, m in out["modes"].items():
@@ -67,7 +81,7 @@ def write_md(report: dict) -> None:
                 cells = " | ".join("-" if x is None else str(x) for x in ranks)
                 lines.append(f"| {p['q']} | {cells} |")
         lines.append("")
-    (HERE / "results.md").write_text("\n".join(lines) + "\n")
+    (HERE / f"results-{run_name}.md").write_text("\n".join(lines) + "\n")
 
 
 if __name__ == "__main__":

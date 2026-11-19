@@ -50,20 +50,22 @@ What this shows:
 - Latency on an Apple M4 CPU, measured while other jobs shared the machine: BM25 3 ms, vectors 10 ms,
   reranking 30 passages about 5 s with mxbai (0.5 s with MiniLM). Reranking is the cost of the accuracy.
 
-**The browser version has an extra constraint** (see Licences below): for 24 papers the page may only
-hold a 40-word excerpt. Reranking those on the excerpt alone hurt (keyword-style Hit@5 fell to 95.2%,
-reworded to 85.4%), because the reranker can't judge a passage from 40 words. The fix: excerpt-only
-passages keep their fused slot and the reranker reorders only the full-text passages around them.
-Measured under the page's real limits (`WEB_SIM=1 uv run python -m eval.run_eval`):
+**The browser version, measured as shipped.** `tests/web_eval.mjs` runs the page's own code
+(`web/search.js`, int8 document vectors, the q8-quantised bge-small and mxbai models through
+transformers.js) under Node on the same questions:
 
 | Browser pipeline | Keyword-style Hit@5 | MRR@10 | Reworded Hit@5 | MRR@10 |
 |---|---|---|---|---|
-| Hybrid + rerank, excerpts reranked | 95.2% | 0.921 | 85.4% | 0.807 |
-| Hybrid + rerank, excerpts keep their slot (shipped) | 97.6% | 0.961 | 97.6% | 0.797 |
+| BM25 only | 97.6% | 0.952 | 75.6% | 0.578 |
+| Vector only (q8 bge-small, int8 vectors) | 88.1% | 0.852 | 82.9% | 0.743 |
+| Hybrid (RRF) | 95.2% | 0.960 | 90.2% | 0.724 |
+| Hybrid + rerank (q8 mxbai) | 95.2% | 0.960 | 92.7% | 0.749 |
 
-The shipped browser version scores higher on reworded Hit@5 than the full-text pipeline (97.6% vs
-92.7%). That is 2 questions out of 41, inside the noise of a set this small, and the MRR is the same,
-so I read it as "no loss from the licence limit", not as an improvement.
+Two things cost accuracy in the browser. Quantising the embedding model to 8 bits drops vector search
+on reworded questions from 90.2% to 82.9%. And the page may hold only a 40-word excerpt for 24 papers
+(see Licences): reranking those on 40 words pushed the right passage down, so excerpt-only passages
+keep their fused slot and the reranker reorders the full-text passages around them. Hybrid search still
+matters most here: on reworded questions it beats either retriever alone by 7 to 15 points.
 
 **Limitations, plainly:** I wrote both question sets myself from passages I had read, so they test
 retrieval of the right paper, not answer quality. 42 and 41 questions give wide error bars (one
@@ -82,7 +84,8 @@ uv run streamlit run app.py            # local app with streamed, cited answers
 ```
 
 Without an API key the app still searches and shows the passages. `uv run pytest` runs the unit tests,
-and `node tests/parity.mjs` checks that the browser BM25 and fusion give the same rankings as Python.
+`uv run python tests/parity_dump.py | node tests/parity.mjs` checks that the browser BM25 and fusion give
+identical rankings to Python (86/86 queries), and `npm i && node tests/web_eval.mjs` measures the browser pipeline.
 
 ## Design decisions
 
@@ -92,7 +95,7 @@ and `node tests/parity.mjs` checks that the browser BM25 and fusion give the sam
 - **Fusion by rank, not score.** BM25 scores are unbounded and cosine scores sit between 0 and 1.
   RRF (`1 / (60 + rank)`) avoids having to tune weights to put them on one scale.
 - **Rerank only the top 30.** A cross-encoder is accurate but slow, because it reads each passage
-  together with the question. Running it on 30 fused candidates keeps it near one second.
+  together with the question. Running it on 30 fused candidates instead of all 1,868 passages keeps it to a few seconds on a laptop CPU.
 - **Answers are grounded or they refuse.** The prompt allows only the numbered sources, requires a
   citation on every factual sentence, and gives an exact refusal sentence when the sources don't cover
   the question. The app checks that cited numbers exist. It uses `claude-opus-5-5` through the official

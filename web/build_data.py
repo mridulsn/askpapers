@@ -71,12 +71,15 @@ def main() -> None:
     err = np.abs(q.astype(np.float32) / 127 - emb).max()
     print(f"{len(papers)} papers, {len(chunks)} chunks, emb {q.shape} int8 (max abs err {err:.4f})")
 
-    # The page shows the numbers measured under the page's own limits (WEB_SIM=1 run).
-    res = ROOT / "eval" / "results-web-sim.json"
+    # The page shows numbers measured on the page's own pipeline (tests/web_eval.mjs runs
+    # web/search.js with the same int8 vectors and q8 models under Node).
+    res = ROOT / "eval" / "results-browser.json"
     if res.exists():
-        r = json.loads(res.read_text())
+        r = json.loads(res.read_text())["sets"]
         (OUT / "eval.json").write_text(json.dumps(
             {k: {"n": v["n_questions"], "modes": v["modes"]} for k, v in r.items()}, indent=1))
+    else:
+        print("eval/results-browser.json missing: run node tests/web_eval.mjs, then rebuild")
 
     if "--record" in sys.argv:
         from rag.generate import answer_cli

@@ -61,11 +61,11 @@ class Retriever:
 
     def bm25_rank(self, q: str, k: int) -> list[int]:
         s = self.bm25.get_scores(tokenize(q))
-        return [int(i) for i in np.argsort(-s)[:k] if s[i] > 0]
+        return [int(i) for i in np.argsort(-s, kind="stable")[:k] if s[i] > 0]
 
     def dense_rank(self, q: str, k: int) -> list[int]:
         v = embedder().encode([QUERY_PREFIX + q], normalize_embeddings=True)[0]
-        return [int(i) for i in np.argsort(-(self.emb @ v))[:k]]
+        return [int(i) for i in np.argsort(-(self.emb @ v), kind="stable")[:k]]
 
     def rerank(self, q: str, ids: list[int]) -> list[tuple[int, float]]:
         """Reorder ids by cross-encoder score. Passages in self.fixed (web mode: only an

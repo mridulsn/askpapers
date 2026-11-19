@@ -1,0 +1,59 @@
+{
+ "config": {
+  "pipeline": "web/search.js + transformers.js 3.8.1 (q8 models) under Node",
+  "reranker": "mixedbread-ai/mxbai-rerank-xsmall-v1",
+  "embeddings": "int8 web/data/emb.i8"
+ },
+ "sets": {
+  "keyword": {
+   "n_questions": 42,
+   "modes": {
+    "bm25": {
+     "hit@5": 0.9761904761904762,
+     "mrr@10": 0.9518140589569161,
+     "ms_per_query": 2.689201380952346
+    },
+    "dense": {
+     "hit@5": 0.8809523809523809,
+     "mrr@10": 0.8520408163265306,
+     "ms_per_query": 15.40922221428571
+    },
+    "hybrid": {
+     "hit@5": 0.9523809523809523,
+     "mrr@10": 0.9603174603174603,
+     "ms_per_query": 17.909062499999976
+    },
+    "hybrid+rerank": {
+     "hit@5": 0.9523809523809523,
+     "mrr@10": 0.9603174603174603,
+     "ms_per_query": 7120.001138880953
+    }
+   }
+  },
+  "reworded": {
+   "n_questions": 41,
+   "modes": {
+    "bm25": {
+     "hit@5": 0.7560975609756098,
+     "mrr@10": 0.578319783197832,
+     "ms_per_query": 3.2100213414637326
+    },
+    "dense": {
+     "hit@5": 0.8292682926829268,
+     "mrr@10": 0.742982965543941,
+     "ms_per_query": 13.762274390244118
+    },
+    "hybrid": {
+     "hit@5": 0.9024390243902439,
+     "mrr@10": 0.7244870305845915,
+     "ms_per_query": 15.983001000000868
+    },
+    "hybrid+rerank": {
+     "hit@5": 0.926829268292683,
+     "mrr@10": 0.7486449864498644,
+     "ms_per_query": 6845.076661585367
+    }
+   }
+  }
+ }
+}

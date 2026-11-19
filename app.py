@@ -46,16 +46,17 @@ with st.sidebar:
                     help="Switch modes to compare what each step adds.")
     k = st.slider("Passages sent to the answer", 3, 10, 5)
     st.divider()
-    res_file = Path("eval/results.json")
+    res_file = Path("eval/results-mxbai-rerank-xsmall-v1.json")
     if res_file.exists():
-        st.subheader("Measured on the test set")
-        rows = json.loads(res_file.read_text())["modes"]
-        st.table({m: {"Hit@5": f"{v['hit@5']:.2f}", "MRR@10": f"{v['mrr@10']:.2f}"}
-                  for m, v in rows.items()})
+        st.subheader("Measured on the test sets")
+        sets = json.loads(res_file.read_text())["sets"]
+        st.caption("Hit@5: share of questions with the right paper in the top 5.")
+        st.table({m: {f"{name} ({v['n_questions']})": f"{v['modes'][m]['hit@5']:.0%}"
+                      for name, v in sets.items()} for m in MODES})
 
-examples = ["How does Self-RAG decide when to retrieve?",
-            "What are common ways to evaluate RAG systems?",
-            "Why does hybrid search beat pure vector search?"]
+examples = ["How does FLARE decide when to retrieve?",
+            "How can you evaluate a RAG system without reference answers?",
+            "What happens when the retrieved documents are wrong?"]
 q = st.text_input("Your question", placeholder=examples[0])
 cols = st.columns(len(examples))
 for c, ex in zip(cols, examples):

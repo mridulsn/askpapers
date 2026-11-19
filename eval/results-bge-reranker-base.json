@@ -1,720 +1,726 @@
 {
- "keyword": {
-  "n_questions": 42,
-  "modes": {
-   "bm25": {
-    "hit@5": 0.9761904761904762,
-    "mrr@10": 0.9518140589569161,
-    "ms_per_query": 3.0327637990315757
-   },
-   "dense": {
-    "hit@5": 0.8809523809523809,
-    "mrr@10": 0.8639455782312927,
-    "ms_per_query": 10.248837016877674
-   },
-   "hybrid": {
-    "hit@5": 0.9523809523809523,
-    "mrr@10": 0.9597505668934241,
-    "ms_per_query": 13.26952094123477
-   },
-   "hybrid+rerank": {
-    "hit@5": 1.0,
-    "mrr@10": 0.984126984126984,
-    "ms_per_query": 3041.5651911780947
-   }
-  },
-  "per_question": [
-   {
-    "q": "Why does training time grow when the utility model looks at a larger window of passages?",
-    "paper": "2405.19893",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Which knowledge-graph RAG baselines such as Think-on-Graph and MindMap did the self-cognitive exploration paper compare against?",
-    "paper": "2508.09460",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "How does LoRAG let the generated text and the retrieved information refine each other over several iterations?",
-    "paper": "2403.15450",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "How well did a BM25 retriever do when generating OCL constraints, measured by cosine similarity and edit distance?",
-    "paper": "2505.13129",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Why do companies keep rediscovering the same RAG pitfalls?",
-    "paper": "2601.05264",
-    "bm25": 3,
-    "dense": 7,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Which baselines like TreeQA and Biorag were compared against a RAG method that uses evidence constraints?",
-    "paper": "2603.04647",
-    "bm25": 1,
-    "dense": null,
-    "hybrid": 7,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "How can documents be turned into model parameters instead of being pasted into the prompt?",
-    "paper": "2501.15915",
-    "bm25": 7,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 3
-   },
-   {
-    "q": "What limitations come from building a taxonomy out of preprints that keep getting updated?",
-    "paper": "2408.02854",
-    "bm25": 2,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "When does FLARE decide to retrieve while generating the next sentence?",
-    "paper": "2305.06983",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "What is decision calibration and why does it matter when people over-rely on LLM answers?",
-    "paper": "2411.08891",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "How does a federated RAG system use confidential computing and NVFlare so data providers never talk to each other?",
-    "paper": "2412.13163",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Which multimodal embeddings were compared for retrieving answers from videos?",
-    "paper": "2405.17706",
-    "bm25": 1,
-    "dense": 7,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "How can hybrid retrieval-augmented generation be used for federated recommendation?",
-    "paper": "2403.04256",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "How was the image query benchmark built with Google Image Search and simulated users for agentic multimodal RAG?",
-    "paper": "2501.15470",
-    "bm25": 1,
-    "dense": 3,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Why can RAGAs answer relevancy stay high even when the retrieved context from theses is irrelevant?",
-    "paper": "2607.01852",
-    "bm25": 1,
-    "dense": null,
-    "hybrid": 6,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Does hyperbolic dense retrieval stay fast with an HNSW index on MS MARCO?",
-    "paper": "2602.07739",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "How does a context awareness gate decide whether a query needs retrieval at all?",
-    "paper": "2411.16133",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "How well did RAG work on health policy documents for short yes/no and long answers?",
-    "paper": "2505.04680",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "How did GPT-3.5 compare to T5 and spaCy on ROUGE scores for automated literature reviews?",
-    "paper": "2411.18583",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "How do LightRAG and LazyGraphRAG reduce the cost of building graphs for retrieval?",
-    "paper": "2509.21237",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "What does the prompt builder do in a RAG system for the Persian language?",
-    "paper": "2411.02832",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "How can an attacker tell whether a specific document is in a RAG database without asking suspicious questions?",
-    "paper": "2502.00306",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Does automatic local fine-tuning improve RAG accuracy on multilingual QA datasets like KorQuAD and GermanQuAD?",
-    "paper": "2501.11929",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "How was the gold-standard list of technologies built to evaluate a technology extraction pipeline?",
-    "paper": "2507.21125",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "How were question-answer pairs about nearby cities generated from GeoNames?",
-    "paper": "2509.01030",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "How do you measure the uncertainty of vision-language models in multimodal RAG?",
-    "paper": "2605.29956",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "What threshold worked best when MetaRAG was reproduced with a newer GPT-3.5?",
-    "paper": "2604.19899",
-    "bm25": 1,
-    "dense": 6,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "How do consensus negotiation and majority voting make test-time RAG more efficient?",
-    "paper": "2511.01059",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "How are IT support incidents matched to past resolutions using Milvus and a fine-tuned reranker?",
-    "paper": "2409.13707",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "How are relationships between entities extracted from engineering design text?",
-    "paper": "2307.06985",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Can using different chunk representations for retrieval and for generation improve RAG?",
-    "paper": "2504.10529",
-    "bm25": 1,
-    "dense": 2,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "How does a knowledge graph help organize and expand retrieved chunks on HotpotQA?",
-    "paper": "2502.06864",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "How was ground truth built with BM25 and rerankers when evaluating RAG for space operations?",
-    "paper": "2605.27444",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "What problems did early multimodal RAG systems have when handling image captions and other data?",
-    "paper": "2504.08748",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Can a small LLM annotate document relevance well enough to act as a reranker with a relevance threshold?",
-    "paper": "2406.14162",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "What chunk size and overlap were used with Ada-002 embeddings in the paper on automatic RAG dataset creation?",
-    "paper": "2403.00820",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "How does adaptive iterative refinement keep RAG answers faithful to the evidence?",
-    "paper": "2510.22344",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "How does MultiRAG judge how trustworthy each data source is?",
-    "paper": "2508.03553",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Which small open-source language models were tested for answering questions about the Quran with retrieval?",
-    "paper": "2503.16581",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Why was the outdoor trail recommendation chatbot slow, and how did caching help?",
-    "paper": "2508.05652",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Do different embedding models retrieve similar results in RAG even when their MTEB scores are close?",
-    "paper": "2407.08275",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "How many queries were participants given in the TREC 2025 RAG track, and what were the tasks?",
-    "paper": "2603.09891",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   }
-  ]
+ "config": {
+  "reranker": "BAAI/bge-reranker-base",
+  "web_sim": false
  },
- "reworded": {
-  "n_questions": 41,
-  "modes": {
-   "bm25": {
-    "hit@5": 0.7560975609756098,
-    "mrr@10": 0.578319783197832,
-    "ms_per_query": 2.581276544710485
+ "sets": {
+  "keyword": {
+   "n_questions": 42,
+   "modes": {
+    "bm25": {
+     "hit@5": 0.9761904761904762,
+     "mrr@10": 0.9518140589569161,
+     "ms_per_query": 2.4419001170567105
+    },
+    "dense": {
+     "hit@5": 0.8809523809523809,
+     "mrr@10": 0.8639455782312927,
+     "ms_per_query": 9.965714954194569
+    },
+    "hybrid": {
+     "hit@5": 0.9523809523809523,
+     "mrr@10": 0.9597505668934241,
+     "ms_per_query": 63.77566996074858
+    },
+    "hybrid+rerank": {
+     "hit@5": 1.0,
+     "mrr@10": 0.984126984126984,
+     "ms_per_query": 5425.134908585322
+    }
    },
-   "dense": {
-    "hit@5": 0.9024390243902439,
-    "mrr@10": 0.7323170731707317,
-    "ms_per_query": 9.87790270549495
-   },
-   "hybrid": {
-    "hit@5": 0.8780487804878049,
-    "mrr@10": 0.7392566782810686,
-    "ms_per_query": 13.459223072703292
-   },
-   "hybrid+rerank": {
-    "hit@5": 0.8780487804878049,
-    "mrr@10": 0.774390243902439,
-    "ms_per_query": 3091.237103066793
-   }
+   "per_question": [
+    {
+     "q": "Why does training time grow when the utility model looks at a larger window of passages?",
+     "paper": "2405.19893",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Which knowledge-graph RAG baselines such as Think-on-Graph and MindMap did the self-cognitive exploration paper compare against?",
+     "paper": "2508.09460",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "How does LoRAG let the generated text and the retrieved information refine each other over several iterations?",
+     "paper": "2403.15450",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "How well did a BM25 retriever do when generating OCL constraints, measured by cosine similarity and edit distance?",
+     "paper": "2505.13129",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Why do companies keep rediscovering the same RAG pitfalls?",
+     "paper": "2601.05264",
+     "bm25": 3,
+     "dense": 7,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Which baselines like TreeQA and Biorag were compared against a RAG method that uses evidence constraints?",
+     "paper": "2603.04647",
+     "bm25": 1,
+     "dense": null,
+     "hybrid": 7,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "How can documents be turned into model parameters instead of being pasted into the prompt?",
+     "paper": "2501.15915",
+     "bm25": 7,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 3
+    },
+    {
+     "q": "What limitations come from building a taxonomy out of preprints that keep getting updated?",
+     "paper": "2408.02854",
+     "bm25": 2,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "When does FLARE decide to retrieve while generating the next sentence?",
+     "paper": "2305.06983",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "What is decision calibration and why does it matter when people over-rely on LLM answers?",
+     "paper": "2411.08891",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "How does a federated RAG system use confidential computing and NVFlare so data providers never talk to each other?",
+     "paper": "2412.13163",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Which multimodal embeddings were compared for retrieving answers from videos?",
+     "paper": "2405.17706",
+     "bm25": 1,
+     "dense": 7,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "How can hybrid retrieval-augmented generation be used for federated recommendation?",
+     "paper": "2403.04256",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "How was the image query benchmark built with Google Image Search and simulated users for agentic multimodal RAG?",
+     "paper": "2501.15470",
+     "bm25": 1,
+     "dense": 3,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Why can RAGAs answer relevancy stay high even when the retrieved context from theses is irrelevant?",
+     "paper": "2607.01852",
+     "bm25": 1,
+     "dense": null,
+     "hybrid": 6,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Does hyperbolic dense retrieval stay fast with an HNSW index on MS MARCO?",
+     "paper": "2602.07739",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "How does a context awareness gate decide whether a query needs retrieval at all?",
+     "paper": "2411.16133",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "How well did RAG work on health policy documents for short yes/no and long answers?",
+     "paper": "2505.04680",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "How did GPT-3.5 compare to T5 and spaCy on ROUGE scores for automated literature reviews?",
+     "paper": "2411.18583",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "How do LightRAG and LazyGraphRAG reduce the cost of building graphs for retrieval?",
+     "paper": "2509.21237",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "What does the prompt builder do in a RAG system for the Persian language?",
+     "paper": "2411.02832",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "How can an attacker tell whether a specific document is in a RAG database without asking suspicious questions?",
+     "paper": "2502.00306",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Does automatic local fine-tuning improve RAG accuracy on multilingual QA datasets like KorQuAD and GermanQuAD?",
+     "paper": "2501.11929",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "How was the gold-standard list of technologies built to evaluate a technology extraction pipeline?",
+     "paper": "2507.21125",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "How were question-answer pairs about nearby cities generated from GeoNames?",
+     "paper": "2509.01030",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "How do you measure the uncertainty of vision-language models in multimodal RAG?",
+     "paper": "2605.29956",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "What threshold worked best when MetaRAG was reproduced with a newer GPT-3.5?",
+     "paper": "2604.19899",
+     "bm25": 1,
+     "dense": 6,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "How do consensus negotiation and majority voting make test-time RAG more efficient?",
+     "paper": "2511.01059",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "How are IT support incidents matched to past resolutions using Milvus and a fine-tuned reranker?",
+     "paper": "2409.13707",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "How are relationships between entities extracted from engineering design text?",
+     "paper": "2307.06985",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Can using different chunk representations for retrieval and for generation improve RAG?",
+     "paper": "2504.10529",
+     "bm25": 1,
+     "dense": 2,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "How does a knowledge graph help organize and expand retrieved chunks on HotpotQA?",
+     "paper": "2502.06864",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "How was ground truth built with BM25 and rerankers when evaluating RAG for space operations?",
+     "paper": "2605.27444",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "What problems did early multimodal RAG systems have when handling image captions and other data?",
+     "paper": "2504.08748",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Can a small LLM annotate document relevance well enough to act as a reranker with a relevance threshold?",
+     "paper": "2406.14162",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "What chunk size and overlap were used with Ada-002 embeddings in the paper on automatic RAG dataset creation?",
+     "paper": "2403.00820",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "How does adaptive iterative refinement keep RAG answers faithful to the evidence?",
+     "paper": "2510.22344",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "How does MultiRAG judge how trustworthy each data source is?",
+     "paper": "2508.03553",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Which small open-source language models were tested for answering questions about the Quran with retrieval?",
+     "paper": "2503.16581",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Why was the outdoor trail recommendation chatbot slow, and how did caching help?",
+     "paper": "2508.05652",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Do different embedding models retrieve similar results in RAG even when their MTEB scores are close?",
+     "paper": "2407.08275",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "How many queries were participants given in the TREC 2025 RAG track, and what were the tasks?",
+     "paper": "2603.09891",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    }
+   ]
   },
-  "per_question": [
-   {
-    "q": "Is there a cost to letting the scoring model compare more passages at once?",
-    "paper": "2405.19893",
-    "bm25": null,
-    "dense": 2,
-    "hybrid": 3,
-    "hybrid+rerank": null
+  "reworded": {
+   "n_questions": 41,
+   "modes": {
+    "bm25": {
+     "hit@5": 0.7560975609756098,
+     "mrr@10": 0.578319783197832,
+     "ms_per_query": 2.164387121433165
+    },
+    "dense": {
+     "hit@5": 0.9024390243902439,
+     "mrr@10": 0.7323170731707317,
+     "ms_per_query": 8.949442607600515
+    },
+    "hybrid": {
+     "hit@5": 0.8780487804878049,
+     "mrr@10": 0.7392566782810686,
+     "ms_per_query": 11.939287185668945
+    },
+    "hybrid+rerank": {
+     "hit@5": 0.8780487804878049,
+     "mrr@10": 0.774390243902439,
+     "ms_per_query": 4557.8840011503635
+    }
    },
-   {
-    "q": "Can a model reflect on what it already knows before walking a graph of facts to answer a question?",
-    "paper": "2508.09460",
-    "bm25": null,
-    "dense": 2,
-    "hybrid": 3,
-    "hybrid+rerank": 3
-   },
-   {
-    "q": "Generation that loops back to fetch more evidence and rewrite its own output",
-    "paper": "2403.15450",
-    "bm25": 4,
-    "dense": 2,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "A review of how organisations engineer retrieval pipelines and make them trustworthy",
-    "paper": "2601.05264",
-    "bm25": 1,
-    "dense": 4,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Storing a document's knowledge in the model's weights rather than in the prompt",
-    "paper": "2501.15915",
-    "bm25": 5,
-    "dense": 1,
-    "hybrid": 2,
-    "hybrid+rerank": 3
-   },
-   {
-    "q": "Start searching only when the model is unsure about the next sentence it is about to write",
-    "paper": "2305.06983",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Making a model's confidence match how often it is right, so people can rely on it for decisions",
-    "paper": "2411.08891",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Answering questions over several organisations' private data without pooling it, using secure hardware",
-    "paper": "2412.13163",
-    "bm25": 2,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 2
-   },
-   {
-    "q": "Using subtitles lined up with video scenes as a knowledge source",
-    "paper": "2405.17706",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "An agent that plans whether to look up images or text before answering a visual question",
-    "paper": "2501.15470",
-    "bm25": null,
-    "dense": 1,
-    "hybrid": 4,
-    "hybrid+rerank": 3
-   },
-   {
-    "q": "How splitting long university theses into pieces changes answer quality",
-    "paper": "2607.01852",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Embedding text in curved space so search can capture hierarchy",
-    "paper": "2602.07739",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Skipping document lookup for small talk and questions that don't need it",
-    "paper": "2411.16133",
-    "bm25": null,
-    "dense": 1,
-    "hybrid": 4,
-    "hybrid+rerank": 8
-   },
-   {
-    "q": "Writing the related-work section of a paper automatically",
-    "paper": "2411.18583",
-    "bm25": 5,
-    "dense": 2,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "A privacy attack that finds out whether someone's record is in the retrieval data",
-    "paper": "2502.00306",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Adapting a question answering system to a new domain using only unlabeled local documents",
-    "paper": "2501.11929",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 3,
-    "hybrid+rerank": 2
-   },
-   {
-    "q": "Pulling the names of technologies out of scientific articles",
-    "paper": "2507.21125",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 2
-   },
-   {
-    "q": "Where does the name of a town come from?",
-    "paper": "2509.01030",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Repeating an earlier experiment on a model that monitors its own reasoning to see if the results still hold",
-    "paper": "2604.19899",
-    "bm25": 6,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Helping help-desk engineers fix tickets by showing similar old cases",
-    "paper": "2409.13707",
-    "bm25": 4,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Facts about how parts of patented products relate to each other, used to answer design questions",
-    "paper": "2307.06985",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Following links between facts to gather supporting text for questions that need several hops",
-    "paper": "2502.06864",
-    "bm25": null,
-    "dense": null,
-    "hybrid": null,
-    "hybrid+rerank": null
-   },
-   {
-    "q": "Training a small open model to label which documents are relevant, cheaply",
-    "paper": "2406.14162",
-    "bm25": 3,
-    "dense": 2,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Tricking custom chatbots into harmful output by poisoning the files they search",
-    "paper": "2402.08416",
-    "bm25": 1,
-    "dense": 2,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Deciding when and what to look up based on which upcoming words the model is unsure about",
-    "paper": "2403.10081",
-    "bm25": 1,
-    "dense": null,
-    "hybrid": 6,
-    "hybrid+rerank": 2
-   },
-   {
-    "q": "Scoring a retrieval question answering pipeline without human-written reference answers",
-    "paper": "2309.15217",
-    "bm25": 9,
-    "dense": null,
-    "hybrid": null,
-    "hybrid+rerank": 8
-   },
-   {
-    "q": "A light evaluator that grades retrieved documents and falls back to web search when they are bad",
-    "paper": "2401.15884",
-    "bm25": 2,
-    "dense": 5,
-    "hybrid": 2,
-    "hybrid+rerank": 2
-   },
-   {
-    "q": "Finding the right tool for a request before the model plans how to use it",
-    "paper": "2312.05708",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Searching over speech recordings directly instead of transcripts for a voice assistant",
-    "paper": "2502.14727",
-    "bm25": 3,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Choosing which search engine to send a question to without any labelled data",
-    "paper": "2501.07793",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Several cooperating agents that personalise product suggestions from a shopper's history",
-    "paper": "2506.21931",
-    "bm25": 3,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Highlighting the exact region of a page image that supports an answer",
-    "paper": "2412.14457",
-    "bm25": 5,
-    "dense": 2,
-    "hybrid": 2,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Lessons from putting a retrieval chatbot into production inside a company",
-    "paper": "2411.11895",
-    "bm25": null,
-    "dense": 2,
-    "hybrid": null,
-    "hybrid+rerank": null
-   },
-   {
-    "q": "Spotting topics that nobody has written about yet",
-    "paper": "2312.07796",
-    "bm25": 3,
-    "dense": 4,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Testing retrieval assistants for satellite mission controllers",
-    "paper": "2605.27444",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Answering questions about religious scripture with small open models",
-    "paper": "2503.16581",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "An evaluation campaign where teams submitted long cited answers to narrative-style questions",
-    "paper": "2603.09891",
-    "bm25": 1,
-    "dense": 8,
-    "hybrid": 2,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Generating formal rules for software models with the help of retrieved examples",
-    "paper": "2505.13129",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Building the retrieval graph around questions rather than entities",
-    "paper": "2509.21237",
-    "bm25": null,
-    "dense": 5,
-    "hybrid": 7,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Agents that each handle a different kind of database, such as SQL tables or documents",
-    "paper": "2412.05838",
-    "bm25": 1,
-    "dense": 1,
-    "hybrid": 1,
-    "hybrid+rerank": 1
-   },
-   {
-    "q": "Combining facts from several sources that may contradict each other, without making things up",
-    "paper": "2508.03553",
-    "bm25": null,
-    "dense": 1,
-    "hybrid": 2,
-    "hybrid+rerank": 1
-   }
-  ]
+   "per_question": [
+    {
+     "q": "Is there a cost to letting the scoring model compare more passages at once?",
+     "paper": "2405.19893",
+     "bm25": null,
+     "dense": 2,
+     "hybrid": 3,
+     "hybrid+rerank": null
+    },
+    {
+     "q": "Can a model reflect on what it already knows before walking a graph of facts to answer a question?",
+     "paper": "2508.09460",
+     "bm25": null,
+     "dense": 2,
+     "hybrid": 3,
+     "hybrid+rerank": 3
+    },
+    {
+     "q": "Generation that loops back to fetch more evidence and rewrite its own output",
+     "paper": "2403.15450",
+     "bm25": 4,
+     "dense": 2,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "A review of how organisations engineer retrieval pipelines and make them trustworthy",
+     "paper": "2601.05264",
+     "bm25": 1,
+     "dense": 4,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Storing a document's knowledge in the model's weights rather than in the prompt",
+     "paper": "2501.15915",
+     "bm25": 5,
+     "dense": 1,
+     "hybrid": 2,
+     "hybrid+rerank": 3
+    },
+    {
+     "q": "Start searching only when the model is unsure about the next sentence it is about to write",
+     "paper": "2305.06983",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Making a model's confidence match how often it is right, so people can rely on it for decisions",
+     "paper": "2411.08891",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Answering questions over several organisations' private data without pooling it, using secure hardware",
+     "paper": "2412.13163",
+     "bm25": 2,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 2
+    },
+    {
+     "q": "Using subtitles lined up with video scenes as a knowledge source",
+     "paper": "2405.17706",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "An agent that plans whether to look up images or text before answering a visual question",
+     "paper": "2501.15470",
+     "bm25": null,
+     "dense": 1,
+     "hybrid": 4,
+     "hybrid+rerank": 3
+    },
+    {
+     "q": "How splitting long university theses into pieces changes answer quality",
+     "paper": "2607.01852",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Embedding text in curved space so search can capture hierarchy",
+     "paper": "2602.07739",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Skipping document lookup for small talk and questions that don't need it",
+     "paper": "2411.16133",
+     "bm25": null,
+     "dense": 1,
+     "hybrid": 4,
+     "hybrid+rerank": 8
+    },
+    {
+     "q": "Writing the related-work section of a paper automatically",
+     "paper": "2411.18583",
+     "bm25": 5,
+     "dense": 2,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "A privacy attack that finds out whether someone's record is in the retrieval data",
+     "paper": "2502.00306",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Adapting a question answering system to a new domain using only unlabeled local documents",
+     "paper": "2501.11929",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 3,
+     "hybrid+rerank": 2
+    },
+    {
+     "q": "Pulling the names of technologies out of scientific articles",
+     "paper": "2507.21125",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 2
+    },
+    {
+     "q": "Where does the name of a town come from?",
+     "paper": "2509.01030",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Repeating an earlier experiment on a model that monitors its own reasoning to see if the results still hold",
+     "paper": "2604.19899",
+     "bm25": 6,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Helping help-desk engineers fix tickets by showing similar old cases",
+     "paper": "2409.13707",
+     "bm25": 4,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Facts about how parts of patented products relate to each other, used to answer design questions",
+     "paper": "2307.06985",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Following links between facts to gather supporting text for questions that need several hops",
+     "paper": "2502.06864",
+     "bm25": null,
+     "dense": null,
+     "hybrid": null,
+     "hybrid+rerank": null
+    },
+    {
+     "q": "Training a small open model to label which documents are relevant, cheaply",
+     "paper": "2406.14162",
+     "bm25": 3,
+     "dense": 2,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Tricking custom chatbots into harmful output by poisoning the files they search",
+     "paper": "2402.08416",
+     "bm25": 1,
+     "dense": 2,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Deciding when and what to look up based on which upcoming words the model is unsure about",
+     "paper": "2403.10081",
+     "bm25": 1,
+     "dense": null,
+     "hybrid": 6,
+     "hybrid+rerank": 2
+    },
+    {
+     "q": "Scoring a retrieval question answering pipeline without human-written reference answers",
+     "paper": "2309.15217",
+     "bm25": 9,
+     "dense": null,
+     "hybrid": null,
+     "hybrid+rerank": 8
+    },
+    {
+     "q": "A light evaluator that grades retrieved documents and falls back to web search when they are bad",
+     "paper": "2401.15884",
+     "bm25": 2,
+     "dense": 5,
+     "hybrid": 2,
+     "hybrid+rerank": 2
+    },
+    {
+     "q": "Finding the right tool for a request before the model plans how to use it",
+     "paper": "2312.05708",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Searching over speech recordings directly instead of transcripts for a voice assistant",
+     "paper": "2502.14727",
+     "bm25": 3,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Choosing which search engine to send a question to without any labelled data",
+     "paper": "2501.07793",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Several cooperating agents that personalise product suggestions from a shopper's history",
+     "paper": "2506.21931",
+     "bm25": 3,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Highlighting the exact region of a page image that supports an answer",
+     "paper": "2412.14457",
+     "bm25": 5,
+     "dense": 2,
+     "hybrid": 2,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Lessons from putting a retrieval chatbot into production inside a company",
+     "paper": "2411.11895",
+     "bm25": null,
+     "dense": 2,
+     "hybrid": null,
+     "hybrid+rerank": null
+    },
+    {
+     "q": "Spotting topics that nobody has written about yet",
+     "paper": "2312.07796",
+     "bm25": 3,
+     "dense": 4,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Testing retrieval assistants for satellite mission controllers",
+     "paper": "2605.27444",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Answering questions about religious scripture with small open models",
+     "paper": "2503.16581",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "An evaluation campaign where teams submitted long cited answers to narrative-style questions",
+     "paper": "2603.09891",
+     "bm25": 1,
+     "dense": 8,
+     "hybrid": 2,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Generating formal rules for software models with the help of retrieved examples",
+     "paper": "2505.13129",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Building the retrieval graph around questions rather than entities",
+     "paper": "2509.21237",
+     "bm25": null,
+     "dense": 5,
+     "hybrid": 7,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Agents that each handle a different kind of database, such as SQL tables or documents",
+     "paper": "2412.05838",
+     "bm25": 1,
+     "dense": 1,
+     "hybrid": 1,
+     "hybrid+rerank": 1
+    },
+    {
+     "q": "Combining facts from several sources that may contradict each other, without making things up",
+     "paper": "2508.03553",
+     "bm25": null,
+     "dense": 1,
+     "hybrid": 2,
+     "hybrid+rerank": 1
+    }
+   ]
+  }
  }
 }
