@@ -1,0 +1,23 @@
+[project]
+name = "hybrid-rag-arxiv"
+version = "0.1.0"
+description = "Hybrid RAG over arXiv papers: BM25 + dense retrieval, RRF fusion, cross-encoder reranking, cited answers"
+requires-python = ">=3.12"
+dependencies = [
+    "anthropic>=2.10.0",
+    "feedparser>=6.0.14",
+    "numpy>=2.5.5",
+    "pymupdf>=2.1",
+    "rank-bm25>=0.2.2",
+    "requests>=2.34.2",
+    "sentence-transformers>=6.3.0",
+    "streamlit>=1.67.0",
+]
+
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+]
+[tool.pytest.ini_options]
+pythonpath = ["."]

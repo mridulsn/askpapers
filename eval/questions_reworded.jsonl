@@ -1,0 +1,41 @@
+{"q": "Is there a cost to letting the scoring model compare more passages at once?", "paper": "2405.19893"}
+{"q": "Can a model reflect on what it already knows before walking a graph of facts to answer a question?", "paper": "2508.09460"}
+{"q": "Generation that loops back to fetch more evidence and rewrite its own output", "paper": "2403.15450"}
+{"q": "A review of how organisations engineer retrieval pipelines and make them trustworthy", "paper": "2601.05264"}
+{"q": "Storing a document's knowledge in the model's weights rather than in the prompt", "paper": "2501.15915"}
+{"q": "Start searching only when the model is unsure about the next sentence it is about to write", "paper": "2305.06983"}
+{"q": "Making a model's confidence match how often it is right, so people can rely on it for decisions", "paper": "2411.08891"}
+{"q": "Answering questions over several organisations' private data without pooling it, using secure hardware", "paper": "2412.13163"}
+{"q": "Using subtitles lined up with video scenes as a knowledge source", "paper": "2405.17706"}
+{"q": "An agent that plans whether to look up images or text before answering a visual question", "paper": "2501.15470"}
+{"q": "How splitting long university theses into pieces changes answer quality", "paper": "2607.01852"}
+{"q": "Embedding text in curved space so search can capture hierarchy", "paper": "2602.07739"}
+{"q": "Skipping document lookup for small talk and questions that don't need it", "paper": "2411.16133"}
+{"q": "Writing the related-work section of a paper automatically", "paper": "2411.18583"}
+{"q": "A privacy attack that finds out whether someone's record is in the retrieval data", "paper": "2502.00306"}
+{"q": "Adapting a question answering system to a new domain using only unlabeled local documents", "paper": "2501.11929"}
+{"q": "Pulling the names of technologies out of scientific articles", "paper": "2507.21125"}
+{"q": "Where does the name of a town come from?", "paper": "2509.01030"}
+{"q": "Repeating an earlier experiment on a model that monitors its own reasoning to see if the results still hold", "paper": "2604.19899"}
+{"q": "Helping help-desk engineers fix tickets by showing similar old cases", "paper": "2409.13707"}
+{"q": "Facts about how parts of patented products relate to each other, used to answer design questions", "paper": "2307.06985"}
+{"q": "Following links between facts to gather supporting text for questions that need several hops", "paper": "2502.06864"}
+{"q": "Training a small open model to label which documents are relevant, cheaply", "paper": "2406.14162"}
+{"q": "Tricking custom chatbots into harmful output by poisoning the files they search", "paper": "2402.08416"}
+{"q": "Deciding when and what to look up based on which upcoming words the model is unsure about", "paper": "2403.10081"}
+{"q": "Scoring a retrieval question answering pipeline without human-written reference answers", "paper": "2309.15217"}
+{"q": "A light evaluator that grades retrieved documents and falls back to web search when they are bad", "paper": "2401.15884"}
+{"q": "Finding the right tool for a request before the model plans how to use it", "paper": "2312.05708"}
+{"q": "Searching over speech recordings directly instead of transcripts for a voice assistant", "paper": "2502.14727"}
+{"q": "Choosing which search engine to send a question to without any labelled data", "paper": "2501.07793"}
+{"q": "Several cooperating agents that personalise product suggestions from a shopper's history", "paper": "2506.21931"}
+{"q": "Highlighting the exact region of a page image that supports an answer", "paper": "2412.14457"}
+{"q": "Lessons from putting a retrieval chatbot into production inside a company", "paper": "2411.11895"}
+{"q": "Spotting topics that nobody has written about yet", "paper": "2312.07796"}
+{"q": "Testing retrieval assistants for satellite mission controllers", "paper": "2605.27444"}
+{"q": "Answering questions about religious scripture with small open models", "paper": "2503.16581"}
+{"q": "An evaluation campaign where teams submitted long cited answers to narrative-style questions", "paper": "2603.09891"}
+{"q": "Generating formal rules for software models with the help of retrieved examples", "paper": "2505.13129"}
+{"q": "Building the retrieval graph around questions rather than entities", "paper": "2509.21237"}
+{"q": "Agents that each handle a different kind of database, such as SQL tables or documents", "paper": "2412.05838"}
+{"q": "Combining facts from several sources that may contradict each other, without making things up", "paper": "2508.03553"}

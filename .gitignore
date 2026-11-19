@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+# Downloaded PDFs and the full-text index stay local (arXiv licences vary; rebuild with rag.fetch + rag.index)
+data/papers/
+data/chunks.jsonl
+data/embeddings.npy
+data/fetch.log

@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ask the RAG Papers | Mridul Saravanan</title>
+<meta name="description" content="Hybrid search over 60 arXiv papers on retrieval-augmented generation: keyword + vector search, merged and reranked, running in your browser.">
+<link rel="icon" href="https://mridulsaravanan.com/assets/me.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0E1024; --surface: #161936; --line: #272B4D; --ink: #ECEAF6; --muted: #9AA0B8;
+  --accent: #FFB45E; --accent-ink: #1A1300; --good: #7FD6A4;
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 Figtree, system-ui, sans-serif; }
+a { color: var(--accent); }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 16px 64px; }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 14px; }
+.top a { color: var(--muted); text-decoration: none; }
+.top a:hover { color: var(--ink); }
+h1, h2 { font-family: "Bricolage Grotesque", Figtree, sans-serif; font-weight: 700; letter-spacing: -0.01em; }
+h1 { font-size: clamp(32px, 6vw, 52px); line-height: 1.1; margin: 40px 0 12px; }
+h2 { font-size: 20px; margin: 0 0 4px; }
+.lede { color: var(--muted); max-width: 640px; margin: 0 0 32px; }
+form { display: flex; gap: 8px; }
+input[type=text] { flex: 1; min-width: 0; background: var(--surface); color: var(--ink); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px 16px; font: inherit; }
+input[type=text]:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
+button { font: inherit; cursor: pointer; }
+#ask { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 12px; padding: 0 20px; font-weight: 600; }
+#ask:disabled { opacity: .5; cursor: wait; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 16px; }
+.chip { background: transparent; color: var(--ink); border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; font-size: 14px; text-align: left; }
+.chip:hover { border-color: var(--accent); }
+.modes { display: inline-flex; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.modes button { background: transparent; color: var(--muted); border: 0; padding: 8px 12px; font-size: 14px; }
+.modes button[aria-pressed=true] { background: var(--surface); color: var(--ink); box-shadow: inset 0 -2px 0 var(--accent); }
+.label { color: var(--muted); font-size: 14px; margin-right: 4px; }
+#status { color: var(--muted); font-size: 14px; margin: 20px 0 0; min-height: 24px; }
+#status.busy::before { content: ""; display: inline-block; width: 10px; height: 10px; margin-right: 8px; border-radius: 50%;
+  background: var(--accent); animation: pulse 1s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .25; } }
+@media (prefers-reduced-motion: reduce) { #status.busy::before { animation: none; } }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 32px; }
+.note { color: var(--muted); font-size: 14px; margin: 0 0 16px; }
+#answer p { margin: 0 0 12px; }
+#answer ul { margin: 0 0 12px; padding-left: 20px; }
+#answer li { margin-bottom: 8px; }
+.quotes { list-style: none; padding: 0; margin: 0; }
+.quotes li { margin: 0 0 16px; padding-left: 16px; border-left: 2px solid var(--line); }
+.cite { text-decoration: none; font-weight: 600; white-space: nowrap; }
+.src { display: flex; gap: 12px; padding: 16px 0; border-top: 1px solid var(--line); }
+.src:target { background: var(--surface); }
+.src-n { flex: 0 0 28px; height: 28px; border-radius: 8px; background: var(--surface); color: var(--accent); display: grid; place-items: center; font-weight: 600; font-size: 14px; }
+.src-body { min-width: 0; }
+.src-title { color: var(--ink); font-weight: 600; text-decoration: none; }
+.src-title:hover { color: var(--accent); }
+.meta { color: var(--muted); font-size: 13px; margin-top: 2px; overflow-wrap: anywhere; }
+details { margin-top: 8px; font-size: 14px; }
+summary { color: var(--muted); cursor: pointer; }
+details p { color: var(--ink); margin: 8px 0 0; }
+section.more { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 8px 12px 8px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 500; }
+.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.cols { display: grid; grid-template-columns: 3fr 2fr; gap: 32px; }
+ol.steps { padding-left: 20px; margin: 8px 0 0; }
+ol.steps li { margin-bottom: 8px; }
+footer { margin-top: 64px; color: var(--muted); font-size: 14px; display: flex; gap: 24px; flex-wrap: wrap; }
+@media (max-width: 760px) {
+  .grid, .cols { grid-template-columns: 1fr; }
+  #ask { padding: 0 14px; }
+  .pt { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="/">&larr; mridulsaravanan.com</a>
+    <a href="https://github.com/mridulsn/askpapers" target="_blank" rel="noopener">Source on GitHub</a>
+  </div>
+
+  <h1>Ask the RAG papers</h1>
+  <p class="lede">Search <span id="count">60 arXiv papers</span> on retrieval-augmented generation. Keyword search and vector search run side by side, their results are merged, then a reranker picks the best five. Everything runs in your browser.</p>
+
+  <form id="form">
+    <input id="q" type="text" placeholder="e.g. How does FLARE decide when to retrieve?" autocomplete="off" aria-label="Your question">
+    <button id="ask" type="submit" disabled>Search</button>
+  </form>
+  <div class="row" id="examples"></div>
+  <div class="row">
+    <span class="label">Pipeline</span>
+    <div class="modes" role="group" aria-label="Pipeline">
+      <button type="button" data-mode="bm25" aria-pressed="false">Keyword</button>
+      <button type="button" data-mode="dense" aria-pressed="false">Vector</button>
+      <button type="button" data-mode="hybrid" aria-pressed="false">Hybrid</button>
+      <button type="button" data-mode="hybrid+rerank" aria-pressed="true">Hybrid + rerank</button>
+    </div>
+  </div>
+  <p id="status" class="busy" role="status">Loading the index ...</p>
+
+  <div id="results" hidden>
+    <div class="grid">
+      <div>
+        <h2 id="answer-label">Answer</h2>
+        <p class="note" id="answer-note"></p>
+        <div id="answer"></div>
+      </div>
+      <div>
+        <h2>Sources</h2>
+        <div id="sources"></div>
+      </div>
+    </div>
+    <section class="more">
+      <h2>How each step ranked these passages</h2>
+      <p class="note">Position in each list (blank = not in that list's top 50). Merging rewards passages that both searches liked; the reranker then reads each passage together with your question.</p>
+      <div class="scroll" id="stages"></div>
+    </section>
+  </div>
+
+  <section class="more cols">
+    <div>
+      <h2>How it works</h2>
+      <ol class="steps">
+        <li>60 papers were split into 1,868 passages of about 250 words, each tagged with its paper title.</li>
+        <li><strong>Keyword search</strong> (BM25) finds passages that share your exact words, which is good for names like FLARE or Ragas.</li>
+        <li><strong>Vector search</strong> (bge-small embeddings) finds passages that mean the same thing in different words.</li>
+        <li><strong>Reciprocal Rank Fusion</strong> merges the two top-50 lists using ranks only, so their scores never need a common scale.</li>
+        <li>A <strong>cross-encoder reranker</strong> reads your question and each of the top 30 passages together and keeps the best 5.</li>
+        <li>The example questions show a real answer Claude wrote from those 5 passages, with citations. For your own questions this page quotes the closest sentences instead, so it runs free with no server.</li>
+      </ol>
+    </div>
+    <div>
+      <h2>Measured</h2>
+      <p class="note">Share of test questions where the right paper was in the top 5. The reworded set avoids the papers' own wording.</p>
+      <div class="scroll" id="eval"></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Built by Mridul Saravanan</span>
+    <a href="https://github.com/mridulsn/askpapers" target="_blank" rel="noopener">Code, eval and write-up on GitHub</a>
+  </footer>
+</div>
+<script type="module" src="app.js"></script>
+</body>
+</html>
